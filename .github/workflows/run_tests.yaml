@@ -48,4 +48,3 @@ jobs:
         with:
           name: robot-results
           path: results/
-        continue-on-error: true
