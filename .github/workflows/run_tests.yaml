@@ -1,0 +1,39 @@
+name: Run Robot Framework Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:  # สามารถ run workflow ได้ด้วยตนเองจาก GitHub UI
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # ใช้ Ubuntu เป็น runner
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4  # ดึงโค้ดจาก repo
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'  # กำหนดเวอร์ชันของ Python
+
+      - name: Install Dependencies
+        run: |
+          pip install robotframework
+          pip install robotframework-appiumlibrary  # ถ้าต้องใช้กับ Appium
+          pip install robotframework-seleniumlibrary  # ถ้าต้องใช้ Selenium
+
+      - name: Run Robot Framework Tests
+        run: |
+          robot -d results tests/  # รันไฟล์ที่อยู่ในโฟลเดอร์ tests และเก็บผลลัพธ์ในโฟลเดอร์ results
+
+      - name: Upload Test Results
+        if: always()  # อัปโหลดผลลัพธ์ไม่ว่าจะผ่านหรือล้มเหลว
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results
+          path: results/
