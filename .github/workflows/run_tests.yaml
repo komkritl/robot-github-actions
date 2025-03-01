@@ -29,7 +29,7 @@ jobs:
 
       - name: Run Robot Framework Tests
         run: |
-          robot -d results tests/  # รันไฟล์ที่อยู่ในโฟลเดอร์ tests และเก็บผลลัพธ์ในโฟลเดอร์ results
+          robot --dryrun -d results tests/  # รันไฟล์ที่อยู่ในโฟลเดอร์ tests และเก็บผลลัพธ์ในโฟลเดอร์ results
         continue-on-error: true
 
       - name: Upload Test Results
