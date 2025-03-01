@@ -27,17 +27,6 @@ jobs:
           pip install robotframework-appiumlibrary  # ถ้าต้องใช้กับ Appium
           pip install robotframework-seleniumlibrary  # ถ้าต้องใช้ Selenium
 
-      - name: Install Chrome and ChromeDriver
-        run: |
-          sudo apt update
-          sudo apt install -y google-chrome-stable
-          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-          wget -q "https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip"
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          chmod +x /usr/local/bin/chromedriver
-
       - name: Run Robot Framework Tests
         run: |
           robot -d results tests/  # รันไฟล์ที่อยู่ในโฟลเดอร์ tests และเก็บผลลัพธ์ในโฟลเดอร์ results
